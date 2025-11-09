@@ -1,0 +1,32 @@
+blank_issues_disabled: true
+
+contact_links:
+  - name: 🙋 Ask a Question / 질문하기
+    url: https://github.com/sangjun121/aegis/discussions
+    about: |
+      💬 Have a question or need help using Aegis?
+      Aegis 사용 중 궁금한 점이 있다면 Discussion 탭에서 자유롭게 질문해주세요.
+
+  - name: 💡 Feature Request / 기능 제안
+    url: https://github.com/sangjun121/aegis/issues/new?template=feature_request.md
+    about: |
+      💡 Suggest a new feature or improvement for Aegis.
+      Aegis 프레임워크에 새로운 기능이나 개선 아이디어가 있다면 여기에 제안해주세요.
+
+  - name: 🐞 Bug Report / 버그 제보
+    url: https://github.com/sangjun121/aegis/issues/new?template=bug_report.md
+    about: |
+      🐞 Found a reproducible bug or unexpected behavior?
+      재현 가능한 버그나 예외적인 동작을 발견했다면 여기서 제보해주세요.
+
+  - name: 📘 Documentation / 문서 관련 제안
+    url: https://github.com/sangjun121/aegis/issues/new?template=documentation.md
+    about: |
+      📘 Suggest fixes or improvements to documentation.
+      문서의 오탈자, 번역, 설명 보완 등을 제안할 때 사용해주세요.
+
+  - name: 🧱 Task (Internal Only) / 내부 개발용 작업
+    url: https://github.com/sangjun121/aegis/issues/new?template=task.md
+    about: |
+      ⚠️ For core maintainers only. Do not use this template unless you are part of the core team.
+      ⚙️ 내부 유지보수 전용 이슈입니다. 외부 기여자는 사용하지 마세요.
