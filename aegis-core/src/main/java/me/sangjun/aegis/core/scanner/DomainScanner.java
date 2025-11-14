@@ -16,7 +16,7 @@ public class DomainScanner {
      * @param primarySource : 사용자 어플리케이션의 main 클래스이다.
      * @return 스캔된 도메인을 제공한다.
      */
-    public Set<Class<?>> scanDomain(Class<?> primarySource) {
+    public static Set<Class<?>> scanDomain(Class<?> primarySource) {
         Set<Class<?>> domains = new HashSet<>();
 
         Path rootPath = ClassScanner.resolveClassesRoot(primarySource); // 1. classpath의 최상위 루트를 찾기
@@ -35,36 +35,5 @@ public class DomainScanner {
         }
 
         return domains;
-    }
-
-    public Set<Class<?>> scanDomain(Class<?> primarySource, AegisConfig config) {
-        Set<Class<?>> domains = new HashSet<>();
-
-        domains.addAll(scanByConfig(config));
-        domains.addAll(scanByAnnotation(primarySource));
-
-        return domains;
-    }
-
-    private Set<Class<?>> scanByConfig(AegisConfig config) {
-        Set<Class<?>> domains = new HashSet<>();
-
-        domains.addAll(scanByPath(config.baseDomainPaths()));
-        domains.addAll(scanByExplicitDeclaration(config.domains()));
-
-        return domains;
-    }
-
-    private Set<Class<?>> scanByPath(List<String> baseDomainPaths) {
-
-    }
-
-    private Set<Class<?>> scanByExplicitDeclaration(List<Class<?>> domains) {
-
-    }
-
-    private Set<Class<?>> scanByAnnotation(Class<?> primarySource) {
-        Set<Class<?>> domains = new HashSet<>();
-
     }
 }
