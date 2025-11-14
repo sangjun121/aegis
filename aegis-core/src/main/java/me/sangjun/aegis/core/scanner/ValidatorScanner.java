@@ -9,7 +9,7 @@ import me.sangjun.aegis.core.util.ClassScanner;
 
 public class ValidatorScanner {
 
-    public static Set<Class<?>> scanValidator(Class<?> primarySource) {
+    public Set<Class<?>> scanValidator(Class<?> primarySource) {
         Set<Class<?>> validators = new HashSet<>();
 
         Path rootPath = ClassScanner.resolveClassesRoot(primarySource);
@@ -30,7 +30,7 @@ public class ValidatorScanner {
         return validators;
     }
 
-    private static boolean isDomainValidator(Class<?> cls) {
+    private boolean isDomainValidator(Class<?> cls) {
         // 인터페이스 자체는 검색 대상에서 제거
         if (cls.isInterface()) {
             return false;

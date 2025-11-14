@@ -16,7 +16,7 @@ public class DomainScanner {
      * @param primarySource : 사용자 어플리케이션의 main 클래스이다.
      * @return 스캔된 도메인을 제공한다.
      */
-    public static Set<Class<?>> scanDomain(Class<?> primarySource) {
+    public Set<Class<?>> scanDomain(Class<?> primarySource) {
         Set<Class<?>> domains = new HashSet<>();
 
         Path rootPath = ClassScanner.resolveClassesRoot(primarySource); // 1. classpath의 최상위 루트를 찾기
