@@ -1,11 +1,16 @@
 package me.sangjun.aegis.core.binder;
 
+import static me.sangjun.aegis.core.exception.ValidatorErrorMessage.INVALID_VALIDATOR_DOMAIN;
+import static me.sangjun.aegis.core.exception.ValidatorErrorMessage.VALIDATOR_DUPLICATED;
+import static me.sangjun.aegis.core.exception.ValidatorErrorMessage.VALIDATOR_TYPE_NULL;
+
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import me.sangjun.aegis.core.api.DomainValidator;
+import me.sangjun.aegis.core.exception.AegisException;
 
 public class DomainValidatorBinder {
 
@@ -21,15 +26,15 @@ public class DomainValidatorBinder {
             Class<?> domain = extractTypeArgumentFrom(validator);
 
             if (domain == null) {
-                //TODO: 예외 로그 및 부트스트랩 실패
+                throw new AegisException(VALIDATOR_TYPE_NULL.getMessage());
             }
 
             if (domainValidatorMap.containsKey(domain)) {
-                //TODO: 중복 Validator 예외 로그 및 부트스트랩 실패
+                throw new AegisException(VALIDATOR_DUPLICATED.getMessage());
             }
 
             if (!domains.contains(domain)) {
-                //TODO: 중복 Validator 예외 로그 및 부트스트랩 실패
+                throw new AegisException(INVALID_VALIDATOR_DOMAIN.getMessage());
             }
 
             domainValidatorMap.put(domain, validator);
@@ -52,10 +57,9 @@ public class DomainValidatorBinder {
                 if (argument instanceof Class<?> domainType) {
                     return domainType;
                 }
-                //TODO: 예외 로그 및 부트스트랩 실패 및 하위 삭제
             }
         }
 
-        return null;
+        throw new AegisException(INVALID_VALIDATOR_DOMAIN.getMessage());
     }
 }
