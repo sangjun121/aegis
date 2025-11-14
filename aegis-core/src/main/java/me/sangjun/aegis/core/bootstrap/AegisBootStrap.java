@@ -5,6 +5,8 @@ import java.util.Set;
 import me.sangjun.aegis.core.api.AegisConfig;
 import me.sangjun.aegis.core.api.DomainValidator;
 import me.sangjun.aegis.core.binder.DomainValidatorBinder;
+import me.sangjun.aegis.core.exception.AegisException;
+import me.sangjun.aegis.core.exception.AegisExceptionEntryPoint;
 import me.sangjun.aegis.core.scanner.DomainScanner;
 import me.sangjun.aegis.core.scanner.ValidatorScanner;
 
@@ -36,10 +38,17 @@ public class AegisBootStrap {
          * 2. 관리 대상에 대응하는 Validator 구현 여부 검사
          * 3. 관리 대상 도메인의 필드에 대응하는 validate 메소드 구현 여부 검사
          */
-        Set<Class<?>> domains = domainScanner.scanDomain(primarySource);
-        Set<Class<? extends DomainValidator>> validators = validatorScanner.scanValidator(primarySource);
-        Map<Class<?>, Class<? extends DomainValidator>> domainValidatorMapping = domainValidatorBinder.bind(domains,
-                validators);
+
+        try {
+            Set<Class<?>> domains = domainScanner.scanDomain(primarySource);
+            Set<Class<? extends DomainValidator>> validators = validatorScanner.scanValidator(primarySource);
+            Map<Class<?>, Class<? extends DomainValidator>> domainValidatorMapping = domainValidatorBinder.bind(domains,
+                    validators);
+        } catch (AegisException e){
+            new AegisExceptionEntryPoint().handle(e);
+        }
+
+
     }
 
     /**
