@@ -1,16 +1,19 @@
 package me.sangjun.aegis.core.scanner;
 
+import static me.sangjun.aegis.core.exception.AegisErrorMessage.INVALID_CLASS_NAME;
+
 import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import me.sangjun.aegis.core.api.DomainValidator;
+import me.sangjun.aegis.core.exception.AegisException;
 import me.sangjun.aegis.core.util.ClassScanner;
 
 public class ValidatorScanner {
 
-    public Set<Class<?>> scanValidator(Class<?> primarySource) {
-        Set<Class<?>> validators = new HashSet<>();
+    public Set<Class<? extends DomainValidator>> scanValidator(Class<?> primarySource) {
+        Set<Class<? extends DomainValidator>> validators = new HashSet<>();
 
         Path rootPath = ClassScanner.resolveClassesRoot(primarySource);
         List<Path> classFilePaths = ClassScanner.getClassFilePaths(rootPath);
@@ -23,7 +26,7 @@ public class ValidatorScanner {
                     validators.add(actualClass);
                 }
             } catch (ClassNotFoundException e) {
-                //TODO: 예외 로그 및 부트스트랩 실패
+                throw new AegisException(INVALID_CLASS_NAME.getMessage());
             }
         }
 

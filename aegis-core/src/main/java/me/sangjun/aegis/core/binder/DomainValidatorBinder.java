@@ -1,8 +1,8 @@
 package me.sangjun.aegis.core.binder;
 
-import static me.sangjun.aegis.core.exception.ValidatorErrorMessage.INVALID_VALIDATOR_DOMAIN;
-import static me.sangjun.aegis.core.exception.ValidatorErrorMessage.VALIDATOR_DUPLICATED;
-import static me.sangjun.aegis.core.exception.ValidatorErrorMessage.VALIDATOR_TYPE_NULL;
+import static me.sangjun.aegis.core.exception.AegisErrorMessage.INVALID_VALIDATOR_DOMAIN;
+import static me.sangjun.aegis.core.exception.AegisErrorMessage.VALIDATOR_DUPLICATED;
+import static me.sangjun.aegis.core.exception.AegisErrorMessage.VALIDATOR_TYPE_NULL;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
