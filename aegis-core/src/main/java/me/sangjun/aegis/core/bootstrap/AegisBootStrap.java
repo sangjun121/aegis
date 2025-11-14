@@ -47,8 +47,6 @@ public class AegisBootStrap {
         } catch (AegisException e){
             new AegisExceptionEntryPoint().handle(e);
         }
-
-
     }
 
     /**
