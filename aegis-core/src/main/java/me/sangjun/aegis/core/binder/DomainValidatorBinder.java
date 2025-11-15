@@ -17,12 +17,12 @@ public class DomainValidatorBinder {
     /**
      * DomainValidator<T>의 구현체인 validators를 대상으로 T 타입(Class)을 리플렉션으로 추출한다. 그 이후, 도메인과 validator가 1대1로 정확히 대응하는지 검사한다.
      */
-    public Map<Class<?>, Class<? extends DomainValidator>> bind(Set<Class<?>> domains,
-                                                                Set<Class<? extends DomainValidator>> validators) {
+    public Map<Class<?>, Class<?>> bind(Set<Class<?>> domains,
+                                        Set<Class<?>> validators) {
 
-        Map<Class<?>, Class<? extends DomainValidator>> domainValidatorMap = new HashMap<>();
+        Map<Class<?>, Class<?>> domainValidatorMap = new HashMap<>();
 
-        for (Class<? extends DomainValidator> validator : validators) {
+        for (Class<?> validator : validators) {
             Class<?> domain = extractTypeArgumentFrom(validator);
 
             if (domain == null) {
@@ -49,7 +49,7 @@ public class DomainValidatorBinder {
      * @param validator
      * @return
      */
-    private Class<?> extractTypeArgumentFrom(Class<? extends DomainValidator> validator) {
+    private Class<?> extractTypeArgumentFrom(Class<?> validator) {
         for (Type type : validator.getGenericInterfaces()) {
             ParameterizedType pt = (ParameterizedType) type;
             if (pt.getRawType().equals(DomainValidator.class)) {

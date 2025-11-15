@@ -41,10 +41,10 @@ public class AegisBootStrap {
 
         try {
             Set<Class<?>> domains = domainScanner.scanDomain(primarySource);
-            Set<Class<? extends DomainValidator>> validators = validatorScanner.scanValidator(primarySource);
-            Map<Class<?>, Class<? extends DomainValidator>> domainValidatorMapping = domainValidatorBinder.bind(domains,
+            Set<Class<?>> validators = validatorScanner.scanValidator(primarySource);
+            Map<Class<?>, Class<?>> domainValidatorMapping = domainValidatorBinder.bind(domains,
                     validators);
-        } catch (AegisException e){
+        } catch (AegisException e) {
             new AegisExceptionEntryPoint().handle(e);
         }
     }

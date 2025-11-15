@@ -12,8 +12,8 @@ import me.sangjun.aegis.core.util.ClassScanner;
 
 public class ValidatorScanner {
 
-    public Set<Class<? extends DomainValidator>> scanValidator(Class<?> primarySource) {
-        Set<Class<? extends DomainValidator>> validators = new HashSet<>();
+    public Set<Class<?>> scanValidator(Class<?> primarySource) {
+        Set<Class<?>> validators = new HashSet<>();
 
         Path rootPath = ClassScanner.resolveClassesRoot(primarySource);
         List<Path> classFilePaths = ClassScanner.getClassFilePaths(rootPath);
