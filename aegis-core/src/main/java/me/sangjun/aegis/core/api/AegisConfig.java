@@ -4,6 +4,10 @@ import java.util.Collections;
 import java.util.List;
 
 public interface AegisConfig {
+    /**
+     * 입력되는 basePackage의 포멧은 FQCN을 준수해야 한다. 예: com.ryc.domain
+     * @return
+     */
     List<String> basePackages();
 
     /**
