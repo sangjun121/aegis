@@ -9,7 +9,6 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import me.sangjun.aegis.core.api.DomainValidator;
 import me.sangjun.aegis.core.exception.AegisException;
 
 public class DomainValidatorBinder {
@@ -51,11 +50,10 @@ public class DomainValidatorBinder {
      */
     private Class<?> extractTypeArgumentFrom(Class<?> validator) {
         for (Type type : validator.getGenericInterfaces()) {
-            ParameterizedType pt = (ParameterizedType) type;
-            if (pt.getRawType().equals(DomainValidator.class)) {
-                Type argument = pt.getActualTypeArguments()[0];
-                if (argument instanceof Class<?> domainType) {
-                    return domainType;
+            if (type instanceof ParameterizedType parameterizedType) {
+                Type argument = parameterizedType.getActualTypeArguments()[0];
+                if (argument instanceof Class<?> domain) {
+                    return domain;
                 }
             }
         }
