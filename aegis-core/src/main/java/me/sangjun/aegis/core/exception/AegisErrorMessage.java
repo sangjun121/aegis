@@ -7,7 +7,8 @@ public enum AegisErrorMessage {
     INVALID_VALIDATOR_TYPE("validator의 제네럴 타입 변수가 올바르지 않습니다."),
     INVALID_CLASS_NAME("올바르지 않은 클래스 네이밍입니다. 해당 클래스를 로드할 수 없습니다."),
     INVALID_URI_SYNTAX("올바르지 않은 URI 문법입니다. URI는 RFC2396 포멧을 준수해야 합니다."),
-    IO_ERROR_READ_FILE("파일을 접근할 때 IO 예외가 발생하였습니다.");
+    IO_ERROR_READ_FILE("파일을 접근할 때 IO 예외가 발생하였습니다."),
+    CLASS_NOT_FOUND("해당 클래스를 로드할 수 없습니다.");
 
     private final String message;
 

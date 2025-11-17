@@ -13,8 +13,10 @@ import java.nio.file.Paths;
 import java.util.List;
 import me.sangjun.aegis.core.exception.AegisException;
 
+@Deprecated
 public class ClassScanner {
 
+    @Deprecated
     public static Path resolveClassesRoot(Class<?> primarySource) {
         try {
             URL location = primarySource.getProtectionDomain()
@@ -37,6 +39,7 @@ public class ClassScanner {
         }
     }
 
+    @Deprecated
     public static String parseClassName(Path rootPath, Path classPath) {
         Path relativize = rootPath.relativize(classPath);
         String removedExt = relativize.toString().replace(".class", "");
