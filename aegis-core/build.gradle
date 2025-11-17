@@ -1,9 +1,10 @@
 plugins {
-    id 'java'
+    id 'java-library'
+    id 'maven-publish'
 }
 
-group = 'me.sangjun'
-version = '1.0-SNAPSHOT'
+group = 'me.sangjun.aegis'
+version = '0.0.1-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -18,4 +19,12 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
 }
