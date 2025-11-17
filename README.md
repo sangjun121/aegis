@@ -58,4 +58,4 @@ public class SampleApplication {
 
 
 ## 예시 프로젝트
-해당 [aegis-sample](/ageis-sample)에서 경량화된 사용자 어플리케이션을 통해 Aegis의 동작 원리를 이해할 수 있다.
+해당 [aegis-sample](/aegis-sample)에서 경량화된 사용자 어플리케이션을 통해 Aegis의 동작 원리를 이해할 수 있다.
