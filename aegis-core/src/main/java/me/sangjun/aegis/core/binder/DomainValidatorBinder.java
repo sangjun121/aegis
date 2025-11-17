@@ -1,9 +1,9 @@
 package me.sangjun.aegis.core.binder;
 
-import static me.sangjun.aegis.core.exception.AegisErrorMessage.INVALID_VALIDATOR_DOMAIN;
-import static me.sangjun.aegis.core.exception.AegisErrorMessage.NON_IMPLEMENT_VALIDATOR;
-import static me.sangjun.aegis.core.exception.AegisErrorMessage.VALIDATOR_DUPLICATED;
-import static me.sangjun.aegis.core.exception.AegisErrorMessage.VALIDATOR_TYPE_NULL;
+import static me.sangjun.aegis.core.exception.AegisErrorCode.INVALID_VALIDATOR_DOMAIN;
+import static me.sangjun.aegis.core.exception.AegisErrorCode.NON_IMPLEMENT_VALIDATOR;
+import static me.sangjun.aegis.core.exception.AegisErrorCode.VALIDATOR_DUPLICATED;
+import static me.sangjun.aegis.core.exception.AegisErrorCode.VALIDATOR_TYPE_NULL;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -28,15 +28,15 @@ public class DomainValidatorBinder {
             Class<?> domain = extractTypeArgumentFrom(validator);
 
             if (domain == null) {
-                throw new AegisException(VALIDATOR_TYPE_NULL.getMessage());
+                throw new AegisException(VALIDATOR_TYPE_NULL);
             }
 
             if (domainValidatorMap.containsKey(domain)) {
-                throw new AegisException(VALIDATOR_DUPLICATED.getMessage());
+                throw new AegisException(VALIDATOR_DUPLICATED);
             }
 
             if (!domains.contains(domain)) {
-                throw new AegisException(INVALID_VALIDATOR_DOMAIN.getMessage());
+                throw new AegisException(INVALID_VALIDATOR_DOMAIN);
             }
 
             domainValidatorMap.put(domain, validator);
@@ -69,14 +69,14 @@ public class DomainValidatorBinder {
                     .count();
 
             if (count != entryDependencyDomains.size()) {
-                throw new AegisException(NON_IMPLEMENT_VALIDATOR.getMessage());
+                throw new AegisException(NON_IMPLEMENT_VALIDATOR);
             }
 
             totalDomainCount += count;
         }
 
         if (totalDomainCount != dependencyKeys.size()) {
-            throw new AegisException(NON_IMPLEMENT_VALIDATOR.getMessage());
+            throw new AegisException(NON_IMPLEMENT_VALIDATOR);
         }
     }
 
@@ -96,7 +96,7 @@ public class DomainValidatorBinder {
             }
         }
 
-        throw new AegisException(INVALID_VALIDATOR_DOMAIN.getMessage());
+        throw new AegisException(INVALID_VALIDATOR_DOMAIN);
     }
 
     private DependencyKey extractDependencyKeyFrom(Class<?> validator) {
@@ -112,6 +112,6 @@ public class DomainValidatorBinder {
             }
         }
 
-        throw new AegisException(INVALID_VALIDATOR_DOMAIN.getMessage());
+        throw new AegisException(INVALID_VALIDATOR_DOMAIN);
     }
 }

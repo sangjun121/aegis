@@ -1,7 +1,7 @@
 package me.sangjun.aegis.core.util;
 
-import static me.sangjun.aegis.core.exception.AegisErrorMessage.INVALID_URI_SYNTAX;
-import static me.sangjun.aegis.core.exception.AegisErrorMessage.IO_ERROR_READ_FILE;
+import static me.sangjun.aegis.core.exception.AegisErrorCode.INVALID_URI_SYNTAX;
+import static me.sangjun.aegis.core.exception.AegisErrorCode.IO_ERROR_READ_FILE;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +25,7 @@ public class ClassScanner {
 
             return Paths.get(location.toURI());
         } catch (URISyntaxException e) {
-            throw new AegisException(INVALID_URI_SYNTAX.getMessage());
+            throw new AegisException(INVALID_URI_SYNTAX);
         }
     }
 
@@ -35,7 +35,7 @@ public class ClassScanner {
                     .filter(path -> path.toString().endsWith(".class"))
                     .toList();
         } catch (IOException e) {
-            throw new AegisException(IO_ERROR_READ_FILE.getMessage());
+            throw new AegisException(IO_ERROR_READ_FILE);
         }
     }
 
