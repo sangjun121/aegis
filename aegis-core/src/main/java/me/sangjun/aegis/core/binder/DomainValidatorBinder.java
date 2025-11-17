@@ -107,7 +107,7 @@ public class DomainValidatorBinder {
 
                 if (sourceArgument instanceof Class<?> source &&
                         dependencyArgument instanceof Class<?> dependency) {
-                    return new DependencyKey(source, (Class<?>) dependency);
+                    return new DependencyKey(source, dependency);
                 }
             }
         }
