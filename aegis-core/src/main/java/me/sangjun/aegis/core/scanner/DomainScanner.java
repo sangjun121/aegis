@@ -1,14 +1,19 @@
 package me.sangjun.aegis.core.scanner;
 
+import static jdk.internal.org.jline.reader.impl.LineReaderImpl.CompletionType.List;
 import static me.sangjun.aegis.core.exception.AegisErrorMessage.CLASS_NOT_FOUND;
 
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ClassInfoList;
 import io.github.classgraph.ScanResult;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
-import me.sangjun.aegis.core.annotations.AegisDomain;
+import me.sangjun.aegis.core.annotations.ValidationDependsOn;
 import me.sangjun.aegis.core.exception.AegisException;
 
 public class DomainScanner {
@@ -19,7 +24,7 @@ public class DomainScanner {
      * @param primarySource : 사용자 어플리케이션의 main 클래스이다.
      * @return 스캔된 도메인을 제공한다.
      */
-    public Set<Class<?>> scan(Class<?> primarySource, Set<String> basePackages) {
+    public Set<Class<?>> scan(Class<?> primarySource, Set<String> basePackages, Class<?> annotation) {
         Set<Class<?>> domains = new HashSet<>();
 
         ClassLoader loader = primarySource.getClassLoader(); // 해당 ClassLoader는 단지 도메인을 저장하기 위해서만 사용.
@@ -31,7 +36,7 @@ public class DomainScanner {
 
         try (ScanResult scanResult = classGraph.scan()) {
             ClassInfoList domainClassInfos =
-                    scanResult.getClassesWithAnnotation(AegisDomain.class.getName()); // @AegisDomain 붙은 클래스 가져오기
+                    scanResult.getClassesWithAnnotation(annotation.getName()); // 원하는 붙은 클래스 가져오기
 
             for (ClassInfo classInfo : domainClassInfos) {
                 String className = classInfo.getName();
@@ -44,5 +49,29 @@ public class DomainScanner {
         }
 
         return domains;
+    }
+
+    public Map<Class<?>, List<Class<?>>> scanDependencyDomains(Set<Class<?>> domains) {
+        Map<Class<?>, List<Class<?>>> dependencyDomains = new HashMap<>();
+
+        for (Class<?> domain : domains) {
+            ValidationDependsOn[] annotations =
+                    domain.getAnnotationsByType(ValidationDependsOn.class);
+
+            if (annotations.length > 0) {
+                validateDependencyDomain(domain, domains, annotations[0]);
+                dependencyDomains.put(domain, Arrays.stream(annotations[0].value()).toList());
+            }
+        }
+
+        return dependencyDomains;
+    }
+
+    private void validateDependencyDomain(Class<?> sourceDomain, Set<Class<?>> allDomains, ValidationDependsOn target) {
+        for (Class<?> dependencyDomain : target.value()) {
+            if (!allDomains.contains(dependencyDomain)) {
+                //TODO: 예외발생
+            }
+        }
     }
 }

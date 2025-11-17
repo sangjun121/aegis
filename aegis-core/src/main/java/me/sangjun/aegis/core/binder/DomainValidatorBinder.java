@@ -6,7 +6,9 @@ import static me.sangjun.aegis.core.exception.AegisErrorMessage.VALIDATOR_TYPE_N
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import me.sangjun.aegis.core.exception.AegisException;
@@ -42,6 +44,41 @@ public class DomainValidatorBinder {
         return domainValidatorMap;
     }
 
+    public void bindDependency(Map<Class<?>, List<Class<?>>> dependencyDomains,
+                                                        Set<Class<?>> validators) {
+        /**
+         * DependencyValidator 내부 타입 인자 추출
+         */
+        List<DependencyKey> dependencyKeys = new ArrayList<>();
+        for (Class<?> validator : validators) {
+            DependencyKey dependencyKey = extractDependencyKeyFrom(validator);
+            dependencyKeys.add(dependencyKey);
+        }
+
+        /**
+         * 도메인이 의존하는 모든 도메인 리스트(entryDependencyDomains) 중, DependencyKey와 매칭되는 개수 체크
+         */
+
+        long totalDomainCount = 0;
+        for (Map.Entry<Class<?>, List<Class<?>>> entry : dependencyDomains.entrySet()) {
+            List<Class<?>> entryDependencyDomains = entry.getValue();
+            long count = dependencyKeys.stream()
+                    .filter(dependencyKey -> dependencyKey.source().equals(entry.getKey()))
+                    .filter(entryDependencyDomains::contains)
+                    .count();
+
+            if (count != entryDependencyDomains.size()) {
+                //TODO: 예외 발생
+            }
+
+            totalDomainCount += count;
+        }
+
+        if (totalDomainCount != dependencyKeys.size()) {
+            //TODO: 예외 발생
+        }
+    }
+
     /**
      * DomainValidator 구현체의 타입 변수를 추출하는 메소드. 즉, DomainValidator이 어느 도메인의 Validator인지 추출하는 메소드
      *
@@ -54,6 +91,22 @@ public class DomainValidatorBinder {
                 Type argument = parameterizedType.getActualTypeArguments()[0];
                 if (argument instanceof Class<?> domain) {
                     return domain;
+                }
+            }
+        }
+
+        throw new AegisException(INVALID_VALIDATOR_DOMAIN.getMessage());
+    }
+
+    private DependencyKey extractDependencyKeyFrom(Class<?> validator) {
+        for (Type type : validator.getGenericInterfaces()) {
+            if (type instanceof ParameterizedType parameterizedType) {
+                Type sourceArgument = parameterizedType.getActualTypeArguments()[0];
+                Type dependencyArgument = parameterizedType.getActualTypeArguments()[1];
+
+                if (sourceArgument instanceof Class<?> source &&
+                        dependencyArgument instanceof Class<?> dependency) {
+                    return new DependencyKey(source, (Class<?>) dependency);
                 }
             }
         }

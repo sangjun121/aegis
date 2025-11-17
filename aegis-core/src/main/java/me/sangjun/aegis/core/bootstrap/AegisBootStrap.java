@@ -1,12 +1,16 @@
 package me.sangjun.aegis.core.bootstrap;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import me.sangjun.aegis.core.registry.AegisRegistry;
+import me.sangjun.aegis.core.annotations.AegisDomain;
+import me.sangjun.aegis.core.api.DependencyValidator;
+import me.sangjun.aegis.core.api.DomainValidator;
 import me.sangjun.aegis.core.api.AegisConfig;
 import me.sangjun.aegis.core.binder.DomainValidatorBinder;
 import me.sangjun.aegis.core.exception.AegisException;
 import me.sangjun.aegis.core.exception.AegisExceptionEntryPoint;
+import me.sangjun.aegis.core.registry.AegisRegistry;
 import me.sangjun.aegis.core.scanner.DomainScanner;
 import me.sangjun.aegis.core.scanner.ValidatorScanner;
 
@@ -33,12 +37,24 @@ public class AegisBootStrap {
      */
     private void start(Class<?> primarySource, AegisConfig config) {
         try {
-            Set<Class<?>> domains = domainScanner.scan(primarySource, config.basePackages());
-            Set<Class<?>> validators = validatorScanner.scan(primarySource, config.basePackages());
+            /**
+             * 내부 독립 검증
+             */
+            Set<Class<?>> domains = domainScanner.scan(primarySource, config.basePackages(), AegisDomain.class);
+            Set<Class<?>> validators = validatorScanner.scan(primarySource, config.basePackages(),
+                    DomainValidator.class);
             Map<Class<?>, Class<?>> domainValidatorMapping = domainValidatorBinder.bind(domains,
                     validators);
 
-            new AegisRegistry(domains, domainValidatorMapping);
+            /**
+             * 외부 의존 검증
+             */
+            Map<Class<?>, List<Class<?>>> dependencyDomainsMapping = domainScanner.scanDependencyDomains(domains);
+            Set<Class<?>> dependencyValidators = validatorScanner.scan(primarySource, config.basePackages(),
+                    DependencyValidator.class);
+            domainValidatorBinder.bindDependency(dependencyDomainsMapping, dependencyValidators);
+
+            new AegisRegistry(domains, domainValidatorMapping, dependencyDomainsMapping);
         } catch (AegisException e) {
             new AegisExceptionEntryPoint().handle(e);
         }

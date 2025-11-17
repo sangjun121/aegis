@@ -16,7 +16,7 @@ public class ValidatorScanner {
     /**
      * scanValidator는 라이브러리를 제외한 순수 구현으로 작성.
      */
-    public Set<Class<?>> scan(Class<?> primarySource, Set<String> basePackages) {
+    public Set<Class<?>> scan(Class<?> primarySource, Set<String> basePackages, Class<?> targetInterface) {
         Set<Class<?>> validators = new HashSet<>();
 
         ClassLoader loader = primarySource.getClassLoader();
@@ -27,7 +27,7 @@ public class ValidatorScanner {
 
         try (ScanResult scanResult = classGraph.scan()) {
             ClassInfoList validatorClassInfos =
-                    scanResult.getClassesImplementing(DomainValidator.class.getName());
+                    scanResult.getClassesImplementing(targetInterface.getName());
 
             for (ClassInfo classInfo : validatorClassInfos) {
                 String className = classInfo.getName();

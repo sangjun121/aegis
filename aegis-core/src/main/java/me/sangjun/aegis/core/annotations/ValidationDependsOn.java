@@ -6,12 +6,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Deprecated
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Repeatable(ValidationDependsOn.List.class)
 public @interface ValidationDependsOn {
-    String [] value();
+    Class<?> [] value();
 
     @Target(ElementType.TYPE)
     @Retention(RetentionPolicy.RUNTIME)
