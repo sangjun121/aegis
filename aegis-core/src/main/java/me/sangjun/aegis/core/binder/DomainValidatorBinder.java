@@ -1,6 +1,7 @@
 package me.sangjun.aegis.core.binder;
 
 import static me.sangjun.aegis.core.exception.AegisErrorMessage.INVALID_VALIDATOR_DOMAIN;
+import static me.sangjun.aegis.core.exception.AegisErrorMessage.NON_IMPLEMENT_VALIDATOR;
 import static me.sangjun.aegis.core.exception.AegisErrorMessage.VALIDATOR_DUPLICATED;
 import static me.sangjun.aegis.core.exception.AegisErrorMessage.VALIDATOR_TYPE_NULL;
 
@@ -68,14 +69,14 @@ public class DomainValidatorBinder {
                     .count();
 
             if (count != entryDependencyDomains.size()) {
-                //TODO: 예외 발생
+                throw new AegisException(NON_IMPLEMENT_VALIDATOR.getMessage());
             }
 
             totalDomainCount += count;
         }
 
         if (totalDomainCount != dependencyKeys.size()) {
-            //TODO: 예외 발생
+            throw new AegisException(NON_IMPLEMENT_VALIDATOR.getMessage());
         }
     }
 
