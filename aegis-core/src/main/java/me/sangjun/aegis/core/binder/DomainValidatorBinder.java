@@ -45,7 +45,7 @@ public class DomainValidatorBinder {
     }
 
     public void bindDependency(Map<Class<?>, List<Class<?>>> dependencyDomains,
-                                                        Set<Class<?>> validators) {
+                               Set<Class<?>> validators) {
         /**
          * DependencyValidator 내부 타입 인자 추출
          */
@@ -64,7 +64,7 @@ public class DomainValidatorBinder {
             List<Class<?>> entryDependencyDomains = entry.getValue();
             long count = dependencyKeys.stream()
                     .filter(dependencyKey -> dependencyKey.source().equals(entry.getKey()))
-                    .filter(entryDependencyDomains::contains)
+                    .filter(dependencyKey -> entryDependencyDomains.contains(dependencyKey.dependency()))
                     .count();
 
             if (count != entryDependencyDomains.size()) {
