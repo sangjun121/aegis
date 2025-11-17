@@ -1,6 +1,5 @@
 package me.sangjun.aegis.core.scanner;
 
-import static jdk.internal.org.jline.reader.impl.LineReaderImpl.CompletionType.List;
 import static me.sangjun.aegis.core.exception.AegisErrorMessage.CLASS_NOT_FOUND;
 
 import io.github.classgraph.ClassGraph;
