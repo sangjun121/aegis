@@ -2,6 +2,8 @@ package me.sangjun.aegis.core.scanner;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import me.sangjun.aegis.core.SamplePrimary;
 import me.sangjun.aegis.core.annotations.AegisDomain;
@@ -34,6 +36,14 @@ class DomainScannerTest {
 
     @Test
     void classPath_하위에_위치한_의존_도메인을_정상적으로_스캔한다() {
+        Set<Class<?>> domains = Set.of(Member.class, Lecture.class);
 
+        Map<Class<?>, List<Class<?>>> expected = Map.of(
+                Lecture.class, List.of(Member.class)
+        );
+
+        Map<Class<?>, List<Class<?>>> result = domainScanner.scanDependencyDomains(domains);
+
+        assertEquals(expected, result);
     }
 }
