@@ -1,6 +1,6 @@
 package me.sangjun.aegis.core.scanner;
 
-import static me.sangjun.aegis.core.exception.AegisErrorMessage.CLASS_NOT_FOUND;
+import static me.sangjun.aegis.core.exception.AegisErrorCode.CLASS_NOT_FOUND;
 
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
@@ -36,7 +36,7 @@ public class ValidatorScanner {
                 validators.add(clazz);
             }
         } catch (ClassNotFoundException e) {
-            throw new AegisException(CLASS_NOT_FOUND.getMessage());
+            throw new AegisException(CLASS_NOT_FOUND);
         }
 
         return validators;

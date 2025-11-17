@@ -1,6 +1,7 @@
 package me.sangjun.aegis.core.scanner;
 
-import static me.sangjun.aegis.core.exception.AegisErrorMessage.CLASS_NOT_FOUND;
+import static me.sangjun.aegis.core.exception.AegisErrorCode.CLASS_NOT_FOUND;
+import static me.sangjun.aegis.core.exception.AegisErrorCode.NON_REGISTER_DOMAIN;
 
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
@@ -44,7 +45,7 @@ public class DomainScanner {
                 domains.add(clazz);
             }
         } catch (ClassNotFoundException e) {
-            throw new AegisException(CLASS_NOT_FOUND.getMessage());
+            throw new AegisException(CLASS_NOT_FOUND);
         }
 
         return domains;
@@ -58,7 +59,7 @@ public class DomainScanner {
                     domain.getAnnotationsByType(ValidationDependsOn.class);
 
             if (annotations.length > 0) {
-                validateDependencyDomain(domain, domains, annotations[0]);
+                validateDependencyDomain(domains, annotations[0]);
                 dependencyDomains.put(domain, Arrays.stream(annotations[0].value()).toList());
             }
         }
@@ -66,10 +67,10 @@ public class DomainScanner {
         return dependencyDomains;
     }
 
-    private void validateDependencyDomain(Class<?> sourceDomain, Set<Class<?>> allDomains, ValidationDependsOn target) {
+    private void validateDependencyDomain(Set<Class<?>> allDomains, ValidationDependsOn target) {
         for (Class<?> dependencyDomain : target.value()) {
             if (!allDomains.contains(dependencyDomain)) {
-                //TODO: 예외발생
+                throw new AegisException(NON_REGISTER_DOMAIN);
             }
         }
     }

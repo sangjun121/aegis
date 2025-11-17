@@ -1,15 +1,17 @@
 package me.sangjun.aegis.core.exception;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import me.sangjun.aegis.core.alert.AegisErrorLogger;
 
 public class AegisExceptionEntryPoint {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AegisExceptionEntryPoint.class);
+    private final AegisErrorLogger logger;
 
-    private static final String ERROR_MESSAGE = "[AegisBootstrapError] {} {}";
+    public AegisExceptionEntryPoint() {
+        this.logger = new AegisErrorLogger();
+    }
 
     public void handle(AegisException exception) {
-        LOGGER.error(ERROR_MESSAGE, exception.getClass().getSimpleName(), exception.getMessage());
+        logger.logError(exception);
+        logger.terminatedLog();
         throw exception;
     }
 }
