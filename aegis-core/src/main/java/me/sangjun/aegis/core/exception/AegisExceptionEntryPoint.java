@@ -8,7 +8,6 @@ public class AegisExceptionEntryPoint {
 
     private static final String ERROR_MESSAGE = "[AegisBootstrapError] {} {}";
 
-
     public void handle(AegisException exception) {
         LOGGER.error(ERROR_MESSAGE, exception.getClass().getSimpleName(), exception.getMessage());
         throw exception;
