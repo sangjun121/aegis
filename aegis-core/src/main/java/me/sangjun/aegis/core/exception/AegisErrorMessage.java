@@ -1,0 +1,23 @@
+package me.sangjun.aegis.core.exception;
+
+public enum AegisErrorMessage {
+    VALIDATOR_TYPE_NULL("validator의 제네럴 타입 변수가 null일 수 없습니다."),
+    VALIDATOR_DUPLICATED("domain과 매칭되는 validator는 중복일 수 없습니다."),
+    INVALID_VALIDATOR_DOMAIN("관리 대상으로 등록된 Domain의 Validator가 아닙니다."),
+    INVALID_VALIDATOR_TYPE("validator의 제네럴 타입 변수가 올바르지 않습니다."),
+    INVALID_CLASS_NAME("올바르지 않은 클래스 네이밍입니다. 해당 클래스를 로드할 수 없습니다."),
+    INVALID_URI_SYNTAX("올바르지 않은 URI 문법입니다. URI는 RFC2396 포멧을 준수해야 합니다."),
+    IO_ERROR_READ_FILE("파일을 접근할 때 IO 예외가 발생하였습니다."),
+    CLASS_NOT_FOUND("해당 클래스를 로드할 수 없습니다."),
+    NON_IMPLEMENT_VALIDATOR("의존 대상 도메인으로한 검증 인터페이스가 구현되지 않았습니다.");
+
+    private final String message;
+
+    AegisErrorMessage(String message) {
+        this.message = message;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+    }

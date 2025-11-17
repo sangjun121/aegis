@@ -26,7 +26,24 @@ Temporary Items
 node_modules/
 venv/
 *.pyc
-*.log
 build/
 dist/
 .env
+
+# Gradle
+.gradle/
+**/build/
+gradle-app.setting
+.gradletasknamecache
+
+# Java
+*.class
+*.jar
+!**/gradle/wrapper/gradle-wrapper.jar
+*.war
+*.ear
+*.nar
+hs_err_pid*
+replay_pid*
+*.ctxt
+*.log
